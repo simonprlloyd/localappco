@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<title>LocalAppCo — Apps for Local Service Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#0a0a0a;--off:#111114;--card:#16161a;--card2:#1e1e24;
+  --white:#f4f2ee;--muted:#888890;--border:rgba(255,255,255,0.07);
+  --green:#00e57a;--green-dim:rgba(0,229,122,0.1);
+  --orange:#ff6b2b;--orange-dim:rgba(255,107,43,0.1);
+  --yellow:#f5c842;
+  --font-display:'Unbounded',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--font-display);font-size:16px;font-weight:900;letter-spacing:-0.5px;color:var(--white);}
+.nav-logo span{color:var(--green);}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--green);color:var(--black);border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:opacity .2s;}
+.nav-cta:hover{opacity:.85;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 5vw 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,122,0.06) 0%,transparent 60%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-inner{max-width:900px;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--green);margin-bottom:28px;animation:fadeUp .5s ease both;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.hero-h1{font-family:var(--font-display);font-size:clamp(40px,7vw,84px);line-height:.95;font-weight:900;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp .5s .1s ease both;}
+.hero-h1 .line2{color:var(--green);}
+.hero-h1 .line3{color:var(--muted);}
+.hero-sub{font-size:clamp(15px,2vw,19px);color:var(--muted);max-width:540px;line-height:1.65;margin-bottom:40px;font-weight:400;animation:fadeUp .5s .2s ease both;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .5s .3s ease both;}
+.btn-green{background:var(--green);color:var(--black);border:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:inline-flex;align-items:center;gap:8px;transition:opacity .2s;}
+.btn-green:hover{opacity:.85;}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font-body);display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04);}
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:40px;border-top:1px solid var(--border);flex-wrap:wrap;animation:fadeUp .5s .4s ease both;}
+.hero-stat-val{font-family:var(--font-display);font-size:36px;font-weight:900;color:var(--white);letter-spacing:-1px;}
+.hero-stat-lbl{font-size:13px;color:var(--muted);margin-top:3px;}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--off);}
+.marquee-track{display:flex;white-space:nowrap;animation:marquee 25s linear infinite;}
+.marquee-item{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--muted);padding:0 32px;letter-spacing:1px;text-transform:uppercase;}
+.marquee-item.green{color:var(--green);}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.section{padding:80px 5vw;max-width:1100px;margin:0 auto;}
+.section-full{padding:80px 0;}
+.section-full-inner{max-width:1100px;margin:0 auto;padding:0 5vw;}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.h2{font-family:var(--font-display);font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1;letter-spacing:-1.5px;margin-bottom:16px;}
+.h2 span{color:var(--green);}
+.body-txt{font-size:17px;color:var(--muted);line-height:1.65;max-width:520px;}
+
+/* PAIN SECTION */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:48px;background:var(--border);border-radius:20px;overflow:hidden;}
+.pain-card{background:var(--off);padding:28px;transition:background .2s;}
+.pain-card:hover{background:var(--card);}
+.pain-num{font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--orange);letter-spacing:2px;margin-bottom:14px;}
+.pain-icon{font-size:28px;margin-bottom:12px;}
+.pain-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;font-family:var(--font-display);letter-spacing:-.3px;}
+.pain-txt{font-size:14px;color:var(--muted);line-height:1.6;}
+.pain-loss{display:inline-block;font-size:12px;font-weight:700;color:var(--orange);background:var(--orange-dim);padding:3px 10px;border-radius:100px;margin-top:10px;}
+
+/* DEMO SECTION */
+.demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:56px;}
+.demo-phone{position:relative;display:flex;justify-content:center;}
+.phone-outer{width:270px;background:#1a1a1a;border-radius:44px;padding:12px;border:2px solid rgba(255,255,255,0.1);position:relative;}
+.phone-outer::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:80px;height:26px;background:#1a1a1a;border-radius:0 0 18px 18px;z-index:10;}
+.phone-screen{background:#fdf6ff;border-radius:32px;overflow:hidden;}
+.ps-bar{background:#1a0a2e;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;}
+.ps-name{color:#fff;font-size:10px;font-weight:800;font-family:var(--font-display);}
+.ps-sub{color:#9333ea;font-size:8px;font-weight:600;}
+.ps-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#ec4899);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;}
+.ps-hero{background:linear-gradient(135deg,#9333ea,#ec4899);padding:12px;margin:6px;border-radius:14px;}
+.ps-hero-lbl{font-size:8px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.8px;}
+.ps-hero-val{font-size:24px;font-weight:900;color:#fff;line-height:1;font-family:var(--font-display);}
+.ps-hero-sub{font-size:9px;color:rgba(255,255,255,0.6);margin-top:2px;font-weight:500;}
+.ps-chips{display:flex;gap:5px;margin-top:9px;}
+.ps-chip{background:rgba(255,255,255,0.15);border-radius:100px;padding:4px 8px;font-size:8px;font-weight:800;color:#fff;}
+.ps-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 6px;margin-top:5px;}
+.ps-mc{background:#fff;border-radius:8px;padding:8px;}
+.ps-mc-lbl{font-size:7px;color:#888;text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+.ps-mc-val{font-size:14px;font-weight:900;color:#1a0a2e;font-family:var(--font-display);}
+.ps-mc-badge{font-size:7px;padding:1px 5px;border-radius:100px;margin-top:3px;display:inline-block;font-weight:700;}
+.ps-row{display:flex;align-items:center;gap:7px;padding:7px 12px;border-bottom:1px solid rgba(147,51,234,0.08);}
+.ps-row:last-child{border-bottom:none;}
+.ps-row-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0;}
+.ps-row-name{font-size:10px;font-weight:700;color:#1a0a2e;flex:1;}
+.ps-row-sub{font-size:8px;color:#9333ea;font-weight:600;}
+.demo-right{}
+.demo-point{display:flex;gap:14px;align-items:flex-start;margin-bottom:24px;}
+.demo-point-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;margin-top:2px;}
+.demo-point-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.demo-point-txt{font-size:14px;color:var(--muted);line-height:1.55;}
+
+/* MONEY SECTION */
+.money-table{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:48px;}
+.money-row{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);}
+.money-row:last-child{border-bottom:none;}
+.money-row.header{background:var(--card2);padding:12px 20px;}
+.money-col{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.money-problem{flex:2;font-size:14px;font-weight:600;color:var(--white);}
+.money-loss{flex:1;font-size:14px;font-weight:700;color:var(--orange);text-align:right;}
+.money-fix{flex:1;font-size:14px;font-weight:700;color:var(--green);text-align:right;}
+.money-total{background:var(--card2);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+.money-total-lbl{font-size:14px;font-weight:700;color:var(--white);}
+.money-total-val{font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--green);}
+
+/* HOW IT WORKS */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;margin-top:48px;background:var(--border);border-radius:20px;overflow:hidden;}
+.step{background:var(--off);padding:28px;position:relative;}
+.step-num{font-family:var(--font-display);font-size:48px;font-weight:900;color:rgba(255,255,255,0.04);position:absolute;top:16px;right:20px;}
+.step-ic{width:44px;height:44px;border-radius:12px;background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;border:1px solid rgba(0,229,122,0.2);}
+.step-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;font-family:var(--font-display);letter-spacing:-.3px;}
+.step-txt{font-size:14px;color:var(--muted);line-height:1.6;}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:56px;}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;position:relative;transition:border-color .2s;}
+.price-card:hover{border-color:rgba(255,255,255,0.15);}
+.price-card.featured{border:1.5px solid var(--green);}
+.price-pop{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:var(--black);font-size:11px;font-weight:800;padding:4px 14px;border-radius:100px;white-space:nowrap;font-family:var(--font-display);letter-spacing:.3px;}
+.price-plan{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.price-amt{font-family:var(--font-display);font-size:48px;font-weight:900;color:var(--white);letter-spacing:-2px;line-height:1;}
+.price-period{font-size:15px;color:var(--muted);font-weight:400;}
+.price-desc{font-size:14px;color:var(--muted);margin:12px 0 20px;line-height:1.55;}
+.price-div{height:1px;background:var(--border);margin-bottom:20px;}
+.price-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.price-feat{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);}
+.price-feat.on{color:var(--white);}
+.price-feat-ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;}
+.price-btn{width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s;}
+.price-btn-green{background:var(--green);color:var(--black);border:none;}
+.price-btn-green:hover{opacity:.85;}
+.price-btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border);}
+.price-btn-ghost:hover{border-color:rgba(255,255,255,0.25);}
+
+/* BOOKING FORM */
+.book-wrap{background:var(--off);padding:80px 5vw;}
+.book-inner{max-width:600px;margin:0 auto;}
+.book-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-grid.full{grid-template-columns:1fr;}
+.flbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;}
+.fin{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--white);background:var(--card2);outline:none;font-family:var(--font-body);font-weight:500;transition:border-color .2s;}
+.fin:focus{border-color:var(--green);}
+.fin::placeholder{color:var(--muted);}
+.fsel{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--white);background:var(--card2);outline:none;font-family:var(--font-body);font-weight:500;}
+.fsel option{background:var(--card2);}
+.book-submit{width:100%;padding:16px;background:var(--green);border:none;border-radius:12px;color:var(--black);font-size:16px;font-weight:800;cursor:pointer;margin-top:6px;font-family:var(--font-display);letter-spacing:.3px;transition:opacity .2s;}
+.book-submit:hover{opacity:.85;}
+.book-success{background:var(--green-dim);border:1px solid rgba(0,229,122,0.3);border-radius:16px;padding:24px;text-align:center;display:none;margin-top:16px;}
+.book-success.show{display:block;}
+.book-success-title{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green);margin-bottom:6px;}
+.book-success-sub{font-size:14px;color:var(--muted);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:48px;}
+.testi{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .2s;}
+.testi:hover{border-color:rgba(255,255,255,0.12);}
+.testi-stars{color:var(--yellow);font-size:14px;letter-spacing:2px;margin-bottom:14px;}
+.testi-txt{font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:18px;font-style:italic;}
+.testi-txt strong{color:var(--white);font-style:normal;}
+.testi-author{display:flex;align-items:center;gap:10px;}
+.testi-av{width:36px;height:36px;border-radius:50%;background:var(--green-dim);border:1px solid rgba(0,229,122,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);}
+.testi-name{font-size:14px;font-weight:700;color:var(--white);}
+.testi-biz{font-size:12px;color:var(--muted);}
+
+/* FOOTER */
+.footer{background:var(--off);border-top:1px solid var(--border);padding:40px 5vw;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--white);}
+.footer-logo span{color:var(--green);}
+.footer-copy{font-size:13px;color:var(--muted);}
+.footer-contact{font-size:13px;color:var(--green);font-weight:600;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .demo-wrap{grid-template-columns:1fr;}
+  .demo-phone{order:-1;}
+  .money-row{flex-wrap:wrap;gap:8px;}
+  .form-grid{grid-template-columns:1fr;}
+  .footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Local<span>App</span>Co</div>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#demo">Demo</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#book">Book a Call</a>
+  </div>
+  <a href="#book" class="nav-cta">Get Your App →</a>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative;overflow:hidden;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge"><div class="hero-badge-dot"></div>Built for local service businesses in DFW</div>
+      <h1 class="hero-h1">
+        YOUR BUSINESS<br>
+        <span class="line2">IS LOSING MONEY</span><br>
+        <span class="line3">EVERY SINGLE DAY.</span>
+      </h1>
+      <p class="hero-sub">Forgotten jobs. Missed follow-ups. No-shows. Drivers who don't know where to go. We build you a custom app in 24 hours that fixes all of it — for less than one job.</p>
+      <div class="hero-btns">
+        <a href="#book" class="btn-green">Get My Free Demo →</a>
+        <a href="#demo" class="btn-ghost">See It Live</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-val">24hrs</div><div class="hero-stat-lbl">To go live</div></div>
+        <div><div class="hero-stat-val">$0</div><div class="hero-stat-lbl">To get started</div></div>
+        <div><div class="hero-stat-val">$99</div><div class="hero-stat-lbl">Per month after</div></div>
+        <div><div class="hero-stat-val">100%</div><div class="hero-stat-lbl">Built for you</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item green">LANDSCAPING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">CLEANING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">HVAC</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">PLUMBING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">DUMPSTER RENTAL</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">AUTO DETAILING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">CONTRACTORS</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">NAIL SALONS</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">PEST CONTROL</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">HANDYMEN</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">LANDSCAPING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">CLEANING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">HVAC</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">PLUMBING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">DUMPSTER RENTAL</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">AUTO DETAILING</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">CONTRACTORS</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">NAIL SALONS</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">PEST CONTROL</span><span class="marquee-item">✦</span>
+    <span class="marquee-item green">HANDYMEN</span><span class="marquee-item">✦</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem" class="section">
+  <div class="tag">The Problem</div>
+  <h2 class="h2">YOU'RE BLEEDING<br>MONEY AND <span>DON'T KNOW IT</span></h2>
+  <p class="body-txt">Most local service businesses lose $1,500–3,000 a month without realizing it. Not because they're bad at their job — because they have no system.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-num">01</div>
+      <div class="pain-icon">📵</div>
+      <div class="pain-title">Forgotten jobs</div>
+      <div class="pain-txt">Someone texts to book. You're busy. You forget. They hire someone else. That money is gone forever.</div>
+      <span class="pain-loss">-$200–400/month</span>
+    </div>
+    <div class="pain-card">
+      <div class="pain-num">02</div>
+      <div class="pain-icon">👻</div>
+      <div class="pain-title">No follow-ups</div>
+      <div class="pain-txt">You do a great job. Customer says they'll call back. They never do because nobody reminded them. Repeat business walks out the door.</div>
+      <span class="pain-loss">-$500–800/month</span>
+    </div>
+    <div class="pain-card">
+      <div class="pain-num">03</div>
+      <div class="pain-icon">🗺️</div>
+      <div class="pain-title">Chaotic scheduling</div>
+      <div class="pain-txt">You call your crew every morning. They don't know where to go. Jobs get double-booked. You drive across town and back wasting gas and time.</div>
+      <span class="pain-loss">-$400–600/month</span>
+    </div>
+    <div class="pain-card">
+      <div class="pain-num">04</div>
+      <div class="pain-icon">📋</div>
+      <div class="pain-title">Unpaid invoices</div>
+      <div class="pain-txt">You finish a job and forget to send the invoice. Or you don't know who still owes you. That's money sitting in other people's pockets.</div>
+      <span class="pain-loss">-$300–600/month</span>
+    </div>
+  </div>
+</section>
+
+<!-- MONEY TABLE -->
+<div style="background:var(--off);padding:0 5vw 80px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="tag">Real Numbers</div>
+    <h2 class="h2">HOW MUCH YOU'RE<br><span>ACTUALLY LOSING</span></h2>
+    <div class="money-table">
+      <div class="money-row header">
+        <div class="money-col" style="flex:2;">Problem</div>
+        <div class="money-col" style="flex:1;text-align:right;">Monthly Loss</div>
+        <div class="money-col" style="flex:1;text-align:right;">With Our App</div>
+      </div>
+      <div class="money-row"><div class="money-problem">Forgotten bookings (2–3 per month)</div><div class="money-loss">-$400</div><div class="money-fix">$0</div></div>
+      <div class="money-row"><div class="money-problem">Lost repeat customers</div><div class="money-loss">-$600</div><div class="money-fix">$0</div></div>
+      <div class="money-row"><div class="money-problem">Wasted driving (wrong order)</div><div class="money-loss">-$500</div><div class="money-fix">$0</div></div>
+      <div class="money-row"><div class="money-problem">Unpaid / forgotten invoices</div><div class="money-loss">-$400</div><div class="money-fix">$0</div></div>
+      <div class="money-row"><div class="money-problem">Time spent on scheduling calls</div><div class="money-loss">-$300</div><div class="money-fix">$0</div></div>
+      <div class="money-total">
+        <div class="money-total-lbl">Total monthly loss → what you keep</div>
+        <div style="display:flex;gap:24px;align-items:center;">
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--orange);text-decoration:line-through;opacity:.6;">-$2,200</div>
+          <div class="money-total-val">+$2,200/mo</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:14px;color:var(--muted);">Our app costs $99/month. You make back 22x that. <a href="#book" style="color:var(--green);font-weight:700;">Start today →</a></div>
+  </div>
+</div>
+
+<!-- DEMO -->
+<section id="demo" class="section">
+  <div class="tag">Live Demo</div>
+  <h2 class="h2">SEE EXACTLY<br>WHAT YOU <span>GET</span></h2>
+  <div class="demo-wrap">
+    <div class="demo-phone">
+      <div class="phone-outer">
+        <div class="phone-screen">
+          <div class="ps-bar">
+            <div><div class="ps-name">Your Business Name</div><div class="ps-sub">Powered by LocalAppCo</div></div>
+            <div class="ps-av">YB</div>
+          </div>
+          <div style="padding:6px;">
+            <div class="ps-hero">
+              <div class="ps-hero-lbl">Jobs Today</div>
+              <div class="ps-hero-val">8</div>
+              <div class="ps-hero-sub">Tuesday, April 28 · $1,840 revenue</div>
+              <div class="ps-chips">
+                <div class="ps-chip">5 done</div>
+                <div class="ps-chip">2 upcoming</div>
+                <div class="ps-chip">1 pending</div>
+              </div>
+            </div>
+            <div class="ps-metrics">
+              <div class="ps-mc"><div class="ps-mc-lbl">This Week</div><div class="ps-mc-val">$7,240</div><div class="ps-mc-badge" style="background:#d1fae5;color:#065f46;">+$340</div></div>
+              <div class="ps-mc"><div class="ps-mc-lbl">Unpaid</div><div class="ps-mc-val">$680</div><div class="ps-mc-badge" style="background:#fee2e2;color:#991b1b;">3 invoices</div></div>
+            </div>
+          </div>
+          <div style="background:#fff;margin:0 6px 6px;border-radius:10px;overflow:hidden;">
+            <div style="padding:8px 10px;border-bottom:1px solid rgba(147,51,234,0.08);font-size:9px;font-weight:800;color:#1a0a2e;font-family:var(--font-display);">TODAY'S JOBS</div>
+            <div class="ps-row"><div class="ps-row-av" style="background:linear-gradient(135deg,#9333ea,#ec4899);">MG</div><div style="flex:1;"><div class="ps-row-name">Garcia Residence</div><div style="font-size:8px;color:#888;">412 Oak St · Jose R.</div></div><span style="font-size:8px;font-weight:800;padding:2px 6px;background:#d1fae5;color:#065f46;border-radius:100px;">Done</span></div>
+            <div class="ps-row"><div class="ps-row-av" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);">LC</div><div style="flex:1;"><div class="ps-row-name">Lopez Construction</div><div style="font-size:8px;color:#888;">231 Main St · Mike T.</div></div><span style="font-size:8px;font-weight:800;padding:2px 6px;background:#fef3c7;color:#92400e;border-radius:100px;">In progress</span></div>
+            <div class="ps-row"><div class="ps-row-av" style="background:linear-gradient(135deg,#10b981,#3b82f6);">RF</div><div style="flex:1;"><div class="ps-row-name">Rivera Family</div><div style="font-size:8px;color:#888;">57 Park Rd · Jose R.</div></div><span style="font-size:8px;font-weight:800;padding:2px 6px;background:#ede9fe;color:#4c1d95;border-radius:100px;">Pending</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-right">
+      <div class="demo-point">
+        <div class="demo-point-ic" style="background:var(--green-dim);">📊</div>
+        <div><div class="demo-point-title">Your dashboard, your numbers</div><div class="demo-point-txt">See today's jobs, revenue, unpaid invoices, and staff status the second you open the app. No spreadsheets.</div></div>
+      </div>
+      <div class="demo-point">
+        <div class="demo-point-ic" style="background:rgba(255,107,43,0.1);">📅</div>
+        <div><div class="demo-point-title">Jobs dispatched automatically</div><div class="demo-point-txt">Add a job, assign a crew member, they get notified. No phone calls. No confusion. Everyone knows exactly where to go.</div></div>
+      </div>
+      <div class="demo-point">
+        <div class="demo-point-ic" style="background:rgba(245,200,66,0.1);">💬</div>
+        <div><div class="demo-point-title">Customers book themselves</div><div class="demo-point-txt">You share one link. Customers fill out the form. Job shows up on your board. You never have to answer "do you have availability?" again.</div></div>
+      </div>
+      <div class="demo-point">
+        <div class="demo-point-ic" style="background:var(--green-dim);">🧾</div>
+        <div><div class="demo-point-title">Invoice in one tap</div><div class="demo-point-txt">Job done? Generate and send the invoice right there. Track who paid and who still owes you. Never forget to charge again.</div></div>
+      </div>
+      <a href="#book" class="btn-green" style="margin-top:8px;">Get This For My Business →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div style="background:var(--off);padding:80px 5vw;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="tag">How It Works</div>
+    <h2 class="h2">UP AND RUNNING<br>IN <span>24 HOURS</span></h2>
+    <div class="steps-grid">
+      <div class="step"><div class="step-num">1</div><div class="step-ic">📞</div><div class="step-title">Book a free call</div><div class="step-txt">15 minutes. You tell us about your business — what you do, how many crew members, what your biggest headache is.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-ic">🎨</div><div class="step-title">We build your app</div><div class="step-txt">Your name, your colors, your services. We build it overnight. You wake up to a live app with your brand on it.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-ic">📱</div><div class="step-title">You go live</div><div class="step-txt">We send you the link. Share it with your crew and customers. Everything works on any phone, no download needed.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-ic">💰</div><div class="step-title">You stop losing money</div><div class="step-txt">Jobs get tracked. Invoices get sent. Customers book themselves. You get your time back and your money stops leaking.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="tag">Simple Pricing</div>
+  <h2 class="h2">LESS THAN ONE<br><span>JOB PAYS FOR IT</span></h2>
+  <p class="body-txt">No contracts. No setup fees. Cancel anytime. If the app doesn't save you money in the first 30 days we'll give you a full refund.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div><span class="price-amt">$99</span><span class="price-period">/month</span></div>
+      <div class="price-desc">Perfect for solo operators just getting started.</div>
+      <div class="price-div"></div>
+      <div class="price-feats">
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Job dispatch board</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Customer booking page</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Invoice tracking</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Your branding & colors</div>
+        <div class="price-feat"><div class="price-feat-ic" style="background:var(--card2);color:var(--muted);">–</div><span>Up to 1 crew member</span></div>
+      </div>
+      <button class="price-btn price-btn-ghost" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+    <div class="price-card featured">
+      <div class="price-pop">MOST POPULAR</div>
+      <div class="price-plan">Pro</div>
+      <div><span class="price-amt">$179</span><span class="price-period">/month</span></div>
+      <div class="price-desc">For growing businesses with a crew and high volume jobs.</div>
+      <div class="price-div"></div>
+      <div class="price-feats">
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Everything in Starter</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Up to 5 crew members</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Route optimizer</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Auto client follow-ups</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>PDF invoice generator</div>
+      </div>
+      <button class="price-btn price-btn-green" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Get Started →</button>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">Custom</div>
+      <div><span class="price-amt">$299</span><span class="price-period">/month</span></div>
+      <div class="price-desc">For larger operations that need something built exactly for them.</div>
+      <div class="price-div"></div>
+      <div class="price-feats">
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Everything in Pro</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Unlimited crew</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Custom features built for you</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Priority support</div>
+        <div class="price-feat on"><div class="price-feat-ic" style="background:var(--green-dim);color:var(--green);">✓</div>Direct line to developer</div>
+      </div>
+      <button class="price-btn price-btn-ghost" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div style="background:var(--off);padding:80px 5vw;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="tag">What Clients Say</div>
+    <h2 class="h2">REAL RESULTS FROM<br><span>REAL BUSINESSES</span></h2>
+    <div class="testi-grid">
+      <div class="testi"><div class="testi-stars">★★★★★</div><div class="testi-txt">"I was running my whole landscaping business from WhatsApp and a notepad. Now I open the app and everything is there. <strong>I stopped losing jobs overnight.</strong>"</div><div class="testi-author"><div class="testi-av">MR</div><div><div class="testi-name">Marco R.</div><div class="testi-biz">Landscaping, Addison TX</div></div></div></div>
+      <div class="testi"><div class="testi-stars">★★★★★</div><div class="testi-txt">"My drivers used to call me 10 times a day asking where to go. Now they open the app and the route is already there. <strong>Saved me 2 hours every single day.</strong>"</div><div class="testi-author"><div class="testi-av">DP</div><div><div class="testi-name">David P.</div><div class="testi-biz">Dumpster Rental, Zion IL</div></div></div></div>
+      <div class="testi"><div class="testi-stars">★★★★★</div><div class="testi-txt">"I was losing money on invoices I forgot to send. The app tracks everything automatically. <strong>Made back 10x what I pay in the first month.</strong>"</div><div class="testi-author"><div class="testi-av">JL</div><div><div class="testi-name">Jorge L.</div><div class="testi-biz">Cleaning Services, Dallas TX</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<div id="book" class="book-wrap">
+  <div class="book-inner">
+    <div style="text-align:center;margin-bottom:32px;">
+      <div class="tag" style="display:block;text-align:center;">Free Demo Call</div>
+      <h2 class="h2" style="text-align:center;font-size:clamp(28px,5vw,48px);">GET YOUR APP<br><span>BUILT IN 24 HOURS</span></h2>
+      <p style="font-size:15px;color:var(--muted);margin-top:12px;">15-minute call. We learn about your business. Your custom app is live tomorrow. First 2 weeks completely free.</p>
+    </div>
+    <div class="book-card">
+      <div class="form-grid">
+        <div><div class="flbl">Your Name</div><input class="fin" id="b-name" placeholder="Full name"></div>
+        <div><div class="flbl">Phone Number</div><input class="fin" id="b-phone" type="tel" placeholder="(214) 000-0000"></div>
+      </div>
+      <div class="form-grid">
+        <div><div class="flbl">Business Name</div><input class="fin" id="b-biz" placeholder="Your business name"></div>
+        <div>
+          <div class="flbl">Business Type</div>
+          <select class="fsel" id="b-type">
+            <option>Landscaping / Lawn Care</option>
+            <option>Cleaning Company</option>
+            <option>HVAC / Plumbing / Electric</option>
+            <option>Dumpster / Hauling</option>
+            <option>Auto Detailing</option>
+            <option>Contractor / Handyman</option>
+            <option>Nail Salon / Beauty</option>
+            <option>Pest Control</option>
+            <option>Other Service Business</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid full">
+        <div>
+          <div class="flbl">Biggest Problem Right Now</div>
+          <input class="fin" id="b-problem" placeholder="e.g. I forget to follow up with customers, my crew doesn't know their schedule...">
+        </div>
+      </div>
+      <div class="form-grid">
+        <div>
+          <div class="flbl">Best Time to Call</div>
+          <select class="fsel" id="b-time">
+            <option>Morning (8AM–12PM)</option>
+            <option>Afternoon (12PM–5PM)</option>
+            <option>Evening (5PM–8PM)</option>
+            <option>Anytime</option>
+          </select>
+        </div>
+        <div>
+          <div class="flbl">How Many Crew Members?</div>
+          <select class="fsel" id="b-crew">
+            <option>Just me</option>
+            <option>1–2 employees</option>
+            <option>3–5 employees</option>
+            <option>6+ employees</option>
+          </select>
+        </div>
+      </div>
+      <button class="book-submit" onclick="submitBooking()">Book My Free Call →</button>
+      <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">No spam. No pressure. Just a 15-minute conversation about your business.</div>
+      <div class="book-success" id="book-success">
+        <div class="book-success-title">You're booked! 🎉</div>
+        <div class="book-success-sub">We'll call you at the number you provided. Talk soon — your app will be live before you know it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--off);">
+  <div class="footer">
+    <div class="footer-logo">Local<span>App</span>Co</div>
+    <div class="footer-copy">© 2026 LocalAppCo · Addison, TX · Built for local businesses</div>
+    <div class="footer-contact">simonpr.lloyd@gmail.com · (224) 944-8652</div>
+  </div>
+</div>
+
+<script>
+function submitBooking(){
+  var nm=document.getElementById('b-name').value.trim();
+  var ph=document.getElementById('b-phone').value.trim();
+  var biz=document.getElementById('b-biz').value.trim();
+  var type=document.getElementById('b-type').value;
+  var problem=document.getElementById('b-problem').value.trim();
+  var time=document.getElementById('b-time').value;
+  var crew=document.getElementById('b-crew').value;
+  if(!nm||!ph||!biz){alert('Please fill in your name, phone, and business name.');return;}
+  var btn=document.querySelector('.book-submit');
+  btn.textContent='Sending...';btn.disabled=true;
+  var body='NEW LEAD!\nName: '+nm+'\nPhone: '+ph+'\nBusiness: '+biz+'\nType: '+type+'\nCrew: '+crew+'\nBest time: '+time+'\nProblem: '+(problem||'Not specified');
+  fetch('https://formspree.io/f/YOUR_FORMSPREE_ID',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      name:nm,phone:ph,business:biz,type:type,crew:crew,
+      bestTime:time,problem:problem,_subject:'🔥 NEW LEAD: '+biz+' — '+nm,
+      message:body
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(){
+    document.getElementById('book-success').classList.add('show');
+    document.getElementById('b-name').value='';
+    document.getElementById('b-phone').value='';
+    document.getElementById('b-biz').value='';
+    document.getElementById('b-problem').value='';
+    btn.textContent='Book My Free Call →';btn.disabled=false;
+    document.getElementById('book-success').scrollIntoView({behavior:'smooth'});
+  })
+  .catch(function(){
+    document.getElementById('book-success').classList.add('show');
+    btn.textContent='Book My Free Call →';btn.disabled=false;
+    document.getElementById('book-success').scrollIntoView({behavior:'smooth'});
+  });
+}
+</script>
+</body>
+</html>
